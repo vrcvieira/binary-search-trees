@@ -5,101 +5,139 @@ using namespace std;
 class No
 {
 public:
-    int valor, altDir, altEsq;
+    int valor;
     No *esq;
     No *dir;
+    int altura;
 };
 
 class AVL
 {
-public:
-    No *raiz;
+    No *root;
 
-    // Construtor para inicializar a árvore com a raiz nula.
-    AVL()
+    No *inserir(int x, No *t)
     {
-        raiz = NULL;
-    }
-
-    // Método para inserir elementos na árvore, recebendo como parâmetro o valor que será inserido.
-    void insere(int valor)
-    {
-        // Criando o nó, que recebe o valor passado por parâmetro e ponteiros de esquerda e direita para nulo.
-        No *novo = new No();
-        novo->valor = valor;
-        novo->altEsq = 0;
-        novo->altDir = 0;
-        novo->esq = NULL;
-        novo->dir = NULL;
-
-        if (raiz == NULL)
+        if (t == NULL)
         {
-            // Significa que não há elementos na árvore e o que for inserido será a raiz.
-            raiz = novo;
+            t = new No;
+            t->valor = x;
+            t->altura = 0;
+            t->esq = t->dir = NULL;
         }
-        else
+        else if (x < t->valor)
         {
-            // Significa que existe pelo menos um elemento na árvore. Agora, vamos buscar onde inserir.
-
-            // São utilizados dois ponteiros do tipo No para armazenar a raiz e salvar no qual nó estávamos antes de percorrer um novo nó, a partir da estrutura de repetição abaixo.
-            No *atual = raiz;
-            No *anterior;
-            // Essa estrutura de repetição vai executar até que encontremos onde inserir o novo nó.
-            while (true)
+            t->esq = inserir(x, t->esq);
+            if (altura(t->esq) - altura(t->dir) == 2)
             {
-                // Salvando onde estamos na árvore.
-                anterior = atual;
-
-                if (valor <= atual->valor)
-                {
-                    // Vai para a esquerda.
-                    atual = atual->esq;
-                    
-                    if (atual == NULL)
-                    {
-                        // Se for nulo, insere.
-                        anterior->esq = novo;
-                        // Fazer esquema para inserir chamada do balanceamento aqui...
-                        return;
-                    }
-                }
+                if (x < t->esq->valor)
+                    t = rotacaoSimplesDireita(t);
                 else
-                {
-                    // Vai para a direita.
-                    atual = atual->dir;
-                    if (atual == NULL)
-                    {
-                        // Se for nulo, insere.
-                        anterior->dir = novo;
-                        // Fazer esquema para inserir chamada do balanceamento aqui...
-                        return;
-                    }
-                }
+                    t = rotacaoDuplaDireita(t);
             }
         }
+        else if (x > t->valor)
+        {
+            t->dir = inserir(x, t->dir);
+            if (altura(t->dir) - altura(t->esq) == 2)
+            {
+                if (x > t->dir->valor)
+                    t = rotacaoSimplesEsquerda(t);
+                else
+                    t = rotacaoDuplaEsquerda(t);
+            }
+        }
+
+        t->altura = max(altura(t->esq), altura(t->dir)) + 1;
+        return t;
     }
 
-    void emOrdem(No *no)
+    No *rotacaoSimplesDireita(No *&t)
     {
-        if (no)
-        {
-            emOrdem(no->esq);
-            cout << " " << no->valor;
-            emOrdem(no->dir);
-        }
+        No *u = t->esq;
+        t->esq = u->dir;
+        u->dir = t;
+        t->altura = max(altura(t->esq), altura(t->dir)) + 1;
+        u->altura = max(altura(u->esq), t->altura) + 1;
+        return u;
+    }
+
+    No *rotacaoSimplesEsquerda(No *&t)
+    {
+        No *u = t->dir;
+        t->dir = u->esq;
+        u->esq = t;
+        t->altura = max(altura(t->esq), altura(t->dir)) + 1;
+        u->altura = max(altura(t->dir), t->altura) + 1;
+        return u;
+    }
+
+    No *rotacaoDuplaEsquerda(No *&t)
+    {
+        t->dir = rotacaoSimplesDireita(t->dir);
+        return rotacaoSimplesEsquerda(t);
+    }
+
+    No *rotacaoDuplaDireita(No *&t)
+    {
+        t->esq = rotacaoSimplesEsquerda(t->esq);
+        return rotacaoSimplesDireita(t);
+    }
+
+    int altura(No *t)
+    {
+        return (t == NULL ? -1 : t->altura);
+    }
+
+    void emOrdem(No *t)
+    {
+        if (t == NULL)
+            return;
+        emOrdem(t->esq);
+        cout << t->valor << " ";
+        emOrdem(t->dir);
+    }
+
+public:
+    AVL()
+    {
+        root = NULL;
+    }
+
+    void inserir(int x)
+    {
+        root = inserir(x, root);
+    }
+
+    void exibir()
+    {
+        emOrdem(root);
+        cout << endl;
     }
 };
 
 int main()
 {
-    AVL arvore;
-    arvore.insere(6);
-    arvore.insere(4);
-    arvore.insere(7);
-    arvore.insere(1);
-    arvore.insere(5);
-    arvore.insere(8);
-    arvore.insere(9);
-    arvore.emOrdem(arvore.raiz);
-    return 0;
+    AVL t;
+    t.inserir(61);
+    t.inserir(7);
+    t.inserir(4);
+    t.inserir(160);
+    t.inserir(13);
+    t.inserir(58);
+    t.inserir(35);
+    t.inserir(77);
+    t.inserir(142);
+    t.inserir(212);
+    t.inserir(101);
+    t.inserir(89);
+    t.inserir(81);
+    t.inserir(24);
+    t.inserir(64);
+    t.inserir(84);
+    t.inserir(26);
+    t.inserir(7);
+    t.inserir(356);
+    t.inserir(1);
+    t.exibir();
+    
 }
