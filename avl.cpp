@@ -13,7 +13,7 @@ public:
 
 class AVL
 {
-    No *root;
+    No *raiz;
 
     No *inserir(int x, No *t)
     {
@@ -83,6 +83,71 @@ class AVL
         return rotacaoSimplesDireita(t);
     }
 
+    No *acharMenor(No *t)
+    {
+        if (t == NULL)
+            return NULL;
+        else if (t->esq == NULL)
+            return t;
+        else
+            return acharMenor(t->esq);
+    }
+
+    No *remover(int x, No *t)
+    {
+        No *temp;
+
+        // Elemento não encontrado
+        if (t == NULL)
+            return NULL;
+
+        // Procurando pelo elemento
+        else if (x < t->valor)
+            t->esq = remover(x, t->esq);
+        else if (x > t->valor)
+            t->dir = remover(x, t->dir);
+
+        // Elemento encontrado e possui dois filhos
+        else if (t->esq && t->dir)
+        {
+            temp = acharMenor(t->dir);
+            t->valor = temp->valor;
+            t->dir = remover(t->valor, t->dir);
+        }
+        // Elemento encontrado e possui apenas um ou zero filhos
+        else
+        {
+            temp = t;
+            if (t->esq == NULL)
+                t = t->dir;
+            else if (t->dir == NULL)
+                t = t->esq;
+            delete temp;
+        }
+        if (t == NULL)
+            return t;
+
+        t->altura = max(altura(t->esq), altura(t->dir)) + 1;
+
+        // Se o nó estiver desbalanceado
+        if (altura(t->esq) - altura(t->dir) == 2)
+        {
+            if (altura(t->esq->esq) - altura(t->esq->dir) == 1)
+                return rotacaoSimplesEsquerda(t);
+            else
+                return rotacaoDuplaEsquerda(t);
+        }
+        // Desbalanceado para o outro lado
+        else if (altura(t->dir) - altura(t->esq) == 2)
+        {
+            if (altura(t->dir->dir) - altura(t->dir->esq) == 1)
+                return rotacaoSimplesDireita(t);
+            else
+                return rotacaoDuplaDireita(t);
+        }
+        return t;
+    }
+
     int altura(No *t)
     {
         return (t == NULL ? -1 : t->altura);
@@ -100,17 +165,22 @@ class AVL
 public:
     AVL()
     {
-        root = NULL;
+        raiz = NULL;
     }
 
     void inserir(int x)
     {
-        root = inserir(x, root);
+        raiz = inserir(x, raiz);
+    }
+
+    void remover(int x)
+    {
+        raiz = remover(x, raiz);
     }
 
     void exibir()
     {
-        emOrdem(root);
+        emOrdem(raiz);
         cout << endl;
     }
 };
@@ -139,5 +209,8 @@ int main()
     t.inserir(356);
     t.inserir(1);
     t.exibir();
-    
+    t.remover(81);
+    t.remover(101);
+    t.remover(6);
+    t.exibir();
 }
