@@ -1,9 +1,10 @@
 // fator = altura(subárvore esquerda) - altura(subárvore direita)
+
 balancear(Nó P)
 {
     if (fator(P) < −1)
     {
-        // entrando no if, será rotação dupla
+        // se entrar no if abaixo, será rotação dupla
         if (fator(P.esq) < 0)
         {
             // caso esquerda−direita de rotação dupla

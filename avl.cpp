@@ -1,4 +1,5 @@
 #include <iostream>
+#include <chrono>
 
 using namespace std;
 
@@ -187,6 +188,7 @@ public:
 
 int main()
 {
+    auto start = chrono::steady_clock::now();
     AVL t;
     t.inserir(61);
     t.inserir(7);
@@ -213,4 +215,7 @@ int main()
     t.remover(101);
     t.remover(6);
     t.exibir();
+    auto end = chrono::steady_clock::now();
+    chrono::duration<double> elapsed_seconds = end-start;
+    cout << "elapsed time: " << elapsed_seconds.count() << "s\n";
 }
