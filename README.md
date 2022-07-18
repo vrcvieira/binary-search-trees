@@ -1,12 +1,16 @@
 # Árvores Binárias de Busca Balanceadas
 
-Repositório com conteúdo sobre as árvores binárias de busca balanceadas AVL e Rubro-Negra, derivado de trabalho desenvolvido por Antonio Rege Lopes dos Santos e Victor Antunes Vieira como requisito parcial para obtenção de nota na disciplina de Estrutura de Dados da Pós-Graduação em Computação da Universidade Federal Fluminense.
+Repositório sobre as árvores binárias de busca balanceadas AVL e Rubro-Negra, derivado de trabalho desenvolvido por Antonio Rege Lopes dos Santos e Victor Antunes Vieira como requisito parcial para obtenção de nota na disciplina de Estrutura de Dados da Pós-Graduação em Computação da Universidade Federal Fluminense (UFF).
+
+## Materiais complementares
 
 [Vídeo sobre Dicionários Avançados](https://youtu.be/Us_ZjH1rYag)
 
-[Simulador de AVL](https://www.cs.usfca.edu/~galles/visualization/AVLtree.html) 
+[Simulador de AVL](https://www.cs.usfca.edu/~galles/visualization/AVLtree.html)
 
-[Tópico sobre std::map e red-black tree no stackoverflow](https://stackoverflow.com/questions/5288320/why-is-stdmap-implemented-as-a-red-black-tree) 
+[Remoção em Árvore Rubro-Negra](https://www.programiz.com/dsa/deletion-from-a-red-black-tree)
+
+[Tópico sobre std::map e red-black tree no stackoverflow](https://stackoverflow.com/questions/5288320/why-is-stdmap-implemented-as-a-red-black-tree)
 
 ## Referências
 
