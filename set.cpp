@@ -1,3 +1,5 @@
+// Árvore Rubro-Negra com std::set
+
 #include <iostream>
 #include <set>
 #include <chrono>
@@ -26,7 +28,7 @@ int main()
 
     auto end = chrono::steady_clock::now();
     chrono::duration<double> elapsed_seconds = end-start;
-    cout << "elapsed time: " << elapsed_seconds.count() << "s\n";
+    cout << "Tempo de exec.: " << elapsed_seconds.count() << "s\n";
 
     return 0;
 }
